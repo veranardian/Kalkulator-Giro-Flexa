@@ -17,7 +17,7 @@
   <input type="text" id="balance" placeholder="Contoh: 100.000.000">
 
   <label for="rate">Rate Reward (%):</label>
-  <input type="number" id="rate" step="0.1" min="0.1" max="5" placeholder="Contoh: 1.5">
+  <input type="number" id="rate" step="0.1" min="0.1" max="3.5" placeholder="Contoh: 1.5">
 
   <label for="start">Penempatan Awal:</label>
   <input type="date" id="start">
@@ -30,7 +30,7 @@
   <div class="result" id="hasil" style="display:none">
     <p><strong>Jumlah Hari:</strong> <span id="hari"></span> hari</p>
     <p><strong>Reward:</strong> Rp <span id="reward"></span></p>
-    <p><strong>Penalty (5%):</strong> Rp <span id="penalty"></span></p>
+    <p><strong>Penalty (1%):</strong> Rp <span id="penalty"></span></p>
   </div>
 
   <script>
@@ -59,7 +59,7 @@
       const days = diffTime / (1000 * 60 * 60 * 24);
 
       const reward = balance * rate * (days / 365);
-      const penalty = reward * 0.005;
+      const penalty = balance * 0.001;
 
       document.getElementById('hari').textContent = days;
       document.getElementById('reward').textContent = formatRupiah(reward.toFixed(2));
