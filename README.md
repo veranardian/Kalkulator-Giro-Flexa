@@ -1,5 +1,3 @@
-# Kalkulator-Giro-Flexa
-Kalkulator digunakan untuk memperhitungkan bunga yang akan diterima di muka
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -20,6 +18,8 @@ Kalkulator digunakan untuk memperhitungkan bunga yang akan diterima di muka
 
   <label for="jangka">Jangka Waktu (hari):</label>
   <select id="jangka">
+    <option value="180">180</option>
+
     <option value="90">90</option>
     <option value="180">180</option>
     <option value="365">365</option>
