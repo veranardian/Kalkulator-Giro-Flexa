@@ -30,7 +30,7 @@
   <div class="result" id="hasil" style="display:none">
     <p><strong>Jumlah Hari:</strong> <span id="hari"></span> hari</p>
     <p><strong>Reward:</strong> Rp <span id="reward"></span></p>
-    <p><strong>Penalty (3.5%):</strong> Rp <span id="penalty"></span></p>
+    <p><strong>Penalty (5%):</strong> Rp <span id="penalty"></span></p>
   </div>
 
   <script>
