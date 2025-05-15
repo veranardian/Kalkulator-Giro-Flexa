@@ -2,73 +2,68 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Kalkulator Giro Flexa</title>
+  <title>Kalkulator Reward</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; padding: 20px; }
     label { display: block; margin-top: 10px; }
     input, select { width: 100%; padding: 8px; margin-top: 5px; }
     .result { margin-top: 20px; background: #f0f0f0; padding: 15px; border-radius: 8px; }
   </style>
 </head>
 <body>
-  <h2>Kalkulator Giro Flexa 2025</h2>
+  <h2>Kalkulator Reward</h2>
 
-  <label for="penempatan">Nilai Penempatan (Rp):</label>
-  <input type="number" id="penempatan" placeholder="Contoh: 100000000000">
+  <label for="balance">Balance (Rp):</label>
+  <input type="text" id="balance" placeholder="Contoh: 100.000.000">
 
-  <label for="jangka">Jangka Waktu (hari):</label>
-  <select id="jangka">
-    <option value="180">180</option>
+  <label for="rate">Rate Reward (%):</label>
+  <input type="number" id="rate" step="0.1" min="0.1" max="5" placeholder="Contoh: 1.5">
 
-    <option value="90">90</option>
-    <option value="180">180</option>
-    <option value="365">365</option>
-  </select>
+  <label for="start">Penempatan Awal:</label>
+  <input type="date" id="start">
 
-  <label for="tambahan">Rate Tambahan (%):</label>
-  <select id="tambahan">
-    <option value="0.0025">0.25%</option>
-    <option value="0.005">0.5%</option>
-    <option value="0.0075">0.75%</option>
-    <option value="0.01">1%</option>
-    <option value="0.0125">1.25%</option>
-    <option value="0.015">1.5%</option>
-    <option value="0.0175">1.75%</option>
-    <option value="0.02">2%</option>
-  </select>
+  <label for="end">Akhir Penempatan:</label>
+  <input type="date" id="end">
 
   <button onclick="hitung()">Hitung</button>
 
   <div class="result" id="hasil" style="display:none">
-    <p><strong>Bunga Dibayar di Muka:</strong> Rp <span id="bunga"></span></p>
-    <p><strong>Pajak Giro (20%):</strong> Rp <span id="pajak"></span></p>
-    <p><strong>Bunga Diterima Bersih:</strong> Rp <span id="nett"></span></p>
+    <p><strong>Jumlah Hari:</strong> <span id="hari"></span> hari</p>
+    <p><strong>Reward:</strong> Rp <span id="reward"></span></p>
+    <p><strong>Penalty (3.5%):</strong> Rp <span id="penalty"></span></p>
   </div>
 
   <script>
+    function parseRupiah(str) {
+      return parseFloat(str.replaceAll('.', '').replace(',', '.')) || 0;
+    }
+
     function formatRupiah(angka) {
       return new Intl.NumberFormat('id-ID').format(angka);
     }
 
     function hitung() {
-      const penempatan = parseFloat(document.getElementById('penempatan').value);
-      const jangka = parseInt(document.getElementById('jangka').value);
-      const tambahan = parseFloat(document.getElementById('tambahan').value);
-      const rateNormal = 0.00; // dari file Excel
+      const balanceInput = document.getElementById('balance').value;
+      const rate = parseFloat(document.getElementById('rate').value) / 100;
+      const startDate = new Date(document.getElementById('start').value);
+      const endDate = new Date(document.getElementById('end').value);
 
-      if (isNaN(penempatan)) {
-        alert("Masukkan nilai penempatan yang valid");
+      const balance = parseRupiah(balanceInput);
+
+      if (isNaN(balance) || isNaN(rate) || !startDate || !endDate || endDate <= startDate) {
+        alert("Pastikan semua input valid dan tanggal akhir setelah tanggal awal.");
         return;
       }
 
-      const totalRate = rateNormal + tambahan;
-      const bunga = penempatan * totalRate * jangka / 365;
-      const pajak = bunga * 0.2;
-      const nett = bunga - pajak;
+      const diffTime = endDate - startDate;
+      const days = diffTime / (1000 * 60 * 60 * 24);
 
-      document.getElementById('bunga').textContent = formatRupiah(bunga);
-      document.getElementById('pajak').textContent = formatRupiah(pajak);
-      document.getElementById('nett').textContent = formatRupiah(nett);
+      const reward = balance * rate * (days / 365);
+      const penalty = reward * 0.005;
+
+      document.getElementById('hari').textContent = days;
+      document.getElementById('reward').textContent = formatRupiah(reward.toFixed(2));
+      document.getElementById('penalty').textContent = formatRupiah(penalty.toFixed(2));
       document.getElementById('hasil').style.display = 'block';
     }
   </script>
