@@ -59,7 +59,7 @@
       const days = diffTime / (1000 * 60 * 60 * 24);
 
       const reward = balance * rate * (days / 365);
-      const penalty = balance * 0.001;
+      const penalty = balance * 0.001 * days / 365;
 
       document.getElementById('hari').textContent = days;
       document.getElementById('reward').textContent = formatRupiah(reward.toFixed(2));
